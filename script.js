@@ -23,12 +23,24 @@ function addTransaction(e) {
     description,
     amount,
   });
+
+  // save to local storage
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+
+  // update the UI
+  updateTransactionList();
+  updateSummary();
+  transactionFormEl.reset();
 }
 
-// save to local storage
-localStorage.setItem("transactions", JSON.stringify(transactions));
+function updateTransactionList() {
+  transactionListEl.innerHTML = "";
 
-// update the UI
-updateTransactionList();
-updateSummary();
-transactionFormEl.reset();
+  const sortedTransactions = [...transactions].reverse();
+
+  sortedTransactions.forEach((transaction) => {
+    const transactionEl = createTransactionElement(transaction);
+
+    transactionListEl.appendChild(transactionEl);
+  });
+}
