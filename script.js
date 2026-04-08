@@ -78,7 +78,14 @@ function updateSummary() {
 
   //Update UI
   // Todo fix formatting
-  balanceEl.textContent = balance;
-  incomeAmountEl.textContent = income;
-  expenseAmountEl.textContent = expenses;
+  balanceEl.textContent = formatCurrency(balance);
+  incomeAmountEl.textContent = formatCurrency(income);
+  expenseAmountEl.textContent = formatCurrency(expenses);
+}
+
+function formatCurrency(number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(number);
 }
