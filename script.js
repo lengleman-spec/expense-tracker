@@ -54,7 +54,7 @@ function createTransactionElement(transaction) {
 
   li.innerHTML = `
   <span>${transaction.description}</span>
-  <span>${transaction.amount}
+  <span>${formatCurrency(transaction.amount)}
     <button class="delete-btn" onclick="removeTransaction(${transaction.id})">X</button>
   </span>
   `;
@@ -89,3 +89,15 @@ function formatCurrency(number) {
     currency: "USD",
   }).format(number);
 }
+
+function removeTransaction(id) {
+  // filter out the one we want to delete
+  transactions = transactions.filter((transaction) => transaction.id !== id);
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+
+  updateTransactionList();
+  updateSummary();
+}
+
+updateTransactionList();
+updateSummary();
