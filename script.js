@@ -1,3 +1,5 @@
+console.log("script loaded");
+
 const balanceEl = document.getElementById("balance");
 const incomeAmountEl = document.getElementById("income-amount");
 const expenseAmountEl = document.getElementById("expense-amount");
@@ -43,4 +45,40 @@ function updateTransactionList() {
 
     transactionListEl.appendChild(transactionEl);
   });
+}
+
+function createTransactionElement(transaction) {
+  const li = document.createElement("li");
+  li.classList.add("transaction");
+  li.classList.add(transaction.amount > 0 ? "income" : "expense");
+
+  li.innerHTML = `
+  <span>${transaction.description}</span>
+  <span>${transaction.amount}
+    <button class="delete-btn" onclick="removeTransaction(${transaction.id})">X</button>
+  </span>
+  `;
+
+  return li;
+}
+
+function updateSummary() {
+  const balance = transactions.reduce(
+    (acc, transaction) => acc + transaction.amount,
+    0,
+  );
+
+  const income = transactions
+    .filter((transaction) => transaction.amount > 0)
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
+
+  const expenses = transactions
+    .filter((transaction) => transaction.amount < 0)
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
+
+  //Update UI
+  // Todo fix formatting
+  balanceEl.textContent = balance;
+  incomeAmountEl.textContent = income;
+  expenseAmountEl.textContent = expenses;
 }
